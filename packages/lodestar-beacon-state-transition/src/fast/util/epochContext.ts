@@ -176,7 +176,7 @@ export class EpochContext {
    * ``assignment[2]`` is the slot at which the committee is assigned
    * Return null if no assignment..
    */
-  getCommitteeAssignment(epoch: Epoch, validatorIndex: ValidatorIndex): CommitteeAssignment {
+  getCommitteeAssignment(epoch: Epoch, validatorIndex: ValidatorIndex): CommitteeAssignment | null {
 
     if (this.currentShuffling === undefined) throw Error("currentShuffling not defined");
     const nextEpoch = this.currentShuffling.epoch + 1;
@@ -197,7 +197,7 @@ export class EpochContext {
       }
     }
 
-    throw Error("no committeeAssignment");
+    return null;
   }
 
   public isAggregator(slot: Slot, index: CommitteeIndex, slotSignature: BLSSignature): boolean {
