@@ -18,6 +18,7 @@ export function initiateValidatorExit(
     return;
   }
 
+  if (epochCtx.currentShuffling === undefined) throw Error("currentShuffling not defined");
   const currentEpoch = epochCtx.currentShuffling.epoch;
 
   // compute exit queue epoch

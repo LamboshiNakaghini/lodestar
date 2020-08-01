@@ -110,6 +110,7 @@ export class EpochContext {
   public rotateEpochs(state: BeaconState): void {
     this.previousShuffling = this.currentShuffling;
     this.currentShuffling = this.nextShuffling;
+    if (this.currentShuffling === undefined) throw Error("currentShuffling not defined");
     const nextEpoch = this.currentShuffling.epoch + 1;
     const indicesBounded: [ValidatorIndex, Epoch, Epoch][] = readOnlyMap(state.validators, (v, i) => ([
       i, v.activationEpoch, v.exitEpoch,
@@ -132,6 +133,7 @@ export class EpochContext {
 
   public getBeaconProposer(slot: Slot): ValidatorIndex {
     const epoch = computeEpochAtSlot(this.config, slot);
+    if (this.currentShuffling === undefined) throw Error("currentShuffling not defined");
     if (epoch !== this.currentShuffling.epoch) {
       throw new Error("beacon proposer index out of range");
     }
@@ -176,6 +178,7 @@ export class EpochContext {
    */
   getCommitteeAssignment(epoch: Epoch, validatorIndex: ValidatorIndex): CommitteeAssignment {
 
+    if (this.currentShuffling === undefined) throw Error("currentShuffling not defined");
     const nextEpoch = this.currentShuffling.epoch + 1;
     assert.lte(epoch, nextEpoch, "Cannot get committee assignment for epoch more than 1 ahead");
 
@@ -203,6 +206,7 @@ export class EpochContext {
   }
 
   private _resetProposers(state: BeaconState): void {
+    if (this.currentShuffling === undefined) throw Error("currentShuffling not defined");
     const epochSeed = getSeed(this.config, state, this.currentShuffling.epoch, DomainType.BEACON_PROPOSER);
     const startSlot = computeStartSlotAtEpoch(this.config, this.currentShuffling.epoch);
     this.proposers = [];
@@ -219,6 +223,9 @@ export class EpochContext {
   }
 
   private _getSlotCommittees(slot: Slot): ValidatorIndex[][] {
+    if (this.previousShuffling === undefined) throw Error("previousShuffling not defined");
+    if (this.currentShuffling === undefined) throw Error("currentShuffling not defined");
+    if (this.nextShuffling === undefined) throw Error("nextShuffling not defined");
     const epoch = computeEpochAtSlot(this.config, slot);
     const epochSlot = slot % this.config.params.SLOTS_PER_EPOCH;
     if (epoch === this.previousShuffling.epoch) {

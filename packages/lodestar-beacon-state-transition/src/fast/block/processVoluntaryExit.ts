@@ -16,6 +16,7 @@ export function processVoluntaryExit(
   const config = epochCtx.config;
   const voluntaryExit = signedVoluntaryExit.message;
   const validator = state.validators[voluntaryExit.validatorIndex];
+  if (epochCtx.currentShuffling === undefined) throw Error("currentShuffling not defined");
   const currentEpoch = epochCtx.currentShuffling.epoch;
   // verify the validator is active
   if (!isActiveValidator(validator, currentEpoch)) {
