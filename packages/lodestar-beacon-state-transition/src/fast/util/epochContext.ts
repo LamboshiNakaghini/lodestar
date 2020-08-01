@@ -164,7 +164,7 @@ export class EpochContext {
     const committee = this.getBeaconCommittee(data.slot, data.index);
     return getAttestingIndicesFromCommittee(
       committee,
-      readOnlyMap(bits, (b) => b),
+      readOnlyMap(bits, (b) => b) as List<boolean>,
     );
   }
 
