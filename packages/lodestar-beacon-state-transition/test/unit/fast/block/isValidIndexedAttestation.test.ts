@@ -9,12 +9,12 @@ import { generateState } from "../../../utils/state";
 import { generateValidator } from "../../../utils/validator";
 
 describe("validate indexed attestation", () => {
-  const epochCtx = new EpochContext(config);
+  // epochCtx is only used to access config in isValidIndexedAttestation
+  const epochCtx = {config} as EpochContext;
+
   it("should return invalid indexed attestation - empty participants", () => {
     const attestationData = generateAttestationData(0, 1);
-    const state = generateState({
-      validators: Array.from({length: 100}, () => generateValidator())
-    });
+    const state = generateState({validators: generateValidators(100)});
 
     const indexedAttestation: IndexedAttestation = {
       attestingIndices: [],
@@ -26,9 +26,7 @@ describe("validate indexed attestation", () => {
 
   it("should return invalid indexed attestation - indexes not sorted", () => {
     const attestationData = generateAttestationData(0, 1);
-    const state = generateState({
-      validators: Array.from({length: 100}, () => generateValidator())
-    });
+    const state = generateState({validators: generateValidators(100)});
 
     const indexedAttestation: IndexedAttestation = {
       attestingIndices: [1, 0],
@@ -40,9 +38,7 @@ describe("validate indexed attestation", () => {
 
   it("should return valid indexed attestation", () => {
     const attestationData = generateAttestationData(0, 1);
-    const state = generateState({
-      validators: Array.from({length: 100}, () => generateValidator())
-    });
+    const state = generateState({validators: generateValidators(100)});
 
     const indexedAttestation: IndexedAttestation = {
       attestingIndices: [0, 1, 2, 3],

@@ -36,9 +36,10 @@ describe("block assembly", function () {
   });
 
   it("should assemble block", async function () {
+    const state = generateState({slot: 1});
     chainStub.getHeadBlock.resolves(generateEmptySignedBlock());
     chainStub.getHeadStateContext.resolves({
-      state: generateState({slot: 1}), epochCtx: new EpochContext(config)
+      state, epochCtx: new EpochContext(config, state)
     });
     beaconDB.depositDataRoot.getTreeBacked.resolves(config.types.DepositDataRootList.tree.defaultValue());
     assembleBodyStub.resolves(generateEmptyBlock().body);

@@ -162,11 +162,9 @@ describe("gossip utils", function () {
     it("found state", async function () {
       const block = generateSignedBlock();
       const stateRoot = Buffer.alloc(32, 3);
+      const state = generateState();
       forkChoiceStub.getBlockSummaryByBlockRoot.returns(generateBlockSummary({stateRoot}));
-      dbStub.stateCache.get.resolves({
-        state: generateState(),
-        epochCtx: new EpochContext(config)
-      });
+      dbStub.stateCache.get.resolves({state, epochCtx: new EpochContext(config, state)});
       const stateContext = await getBlockStateContext(forkChoiceStub, dbStub, block);
       expect(stateContext).to.not.be.null;
       expect(

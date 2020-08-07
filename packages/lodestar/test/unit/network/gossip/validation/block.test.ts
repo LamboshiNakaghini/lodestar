@@ -110,10 +110,8 @@ describe("gossip block validation", function () {
     });
     dbStub.badBlock.has.resolves(false);
     chainStub.getBlockAtSlot.resolves(null);
-    getBlockContextStub.resolves({
-      state: generateState(),
-      epochCtx: new EpochContext(config)
-    });
+    const state = generateState();
+    getBlockContextStub.resolves({state, epochCtx: new EpochContext(config, state)});
     verifySignatureStub.returns(false);
     const result = await validateGossipBlock(config, chainStub, dbStub, loggerStub, block);
     expect(result).to.equal(ExtendedValidatorResult.reject);

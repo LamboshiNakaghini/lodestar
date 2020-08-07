@@ -20,7 +20,7 @@ describe("block process stream", function () {
   let blockPoolStub: SinonStubbedInstance<BlockPool>;
   let stateTransitionStub: SinonStub;
   let chainStub: SinonStubbedInstance<IBeaconChain>;
-
+  const emptyState = generateState();
   const sandbox = sinon.createSandbox();
 
   beforeEach(function () {
@@ -116,8 +116,8 @@ describe("block process stream", function () {
     const parentBlock = config.types.SignedBeaconBlock.defaultValue();
     forkChoiceStub.getBlockSummaryByBlockRoot
       .withArgs(receivedJob.signedBlock.message.parentRoot.valueOf() as Uint8Array).resolves(parentBlock);
-    dbStub.stateCache.get.resolves(generateState() as any);
-    stateTransitionStub.resolves({state: generateState(), epochCtx: new EpochContext(config)});
+    dbStub.stateCache.get.resolves(emptyState as any);
+    stateTransitionStub.resolves({state: emptyState, epochCtx: new EpochContext(config, emptyState)});
     //dbStub.chain.getChainHeadRoot.resolves(Buffer.alloc(32, 1));
     forkChoiceStub.headBlockRoot.returns(
       Buffer.alloc(32,1)
@@ -149,8 +149,8 @@ describe("block process stream", function () {
     const parentBlock = config.types.SignedBeaconBlock.defaultValue();
     forkChoiceStub.getBlockSummaryByBlockRoot
       .withArgs(receivedJob.signedBlock.message.parentRoot.valueOf() as Uint8Array).resolves(parentBlock);
-    dbStub.stateCache.get.resolves(generateState() as any);
-    stateTransitionStub.returns({state: generateState(), epochCtx: new EpochContext(config)});
+    dbStub.stateCache.get.resolves(emptyState as any);
+    stateTransitionStub.returns({state: emptyState, epochCtx: new EpochContext(config, emptyState)});
     forkChoiceStub.headBlockRoot.returns(Buffer.alloc(32, 2));
     dbStub.depositData.values.resolves([]);
     dbStub.depositDataRoot.getTreeBacked.resolves(config.types.DepositDataRootList.tree.defaultValue());
