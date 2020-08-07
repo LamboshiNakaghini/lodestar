@@ -223,9 +223,6 @@ export class EpochContext {
   }
 
   private _getSlotCommittees(slot: Slot): ValidatorIndex[][] {
-    if (this.previousShuffling === undefined) throw Error("previousShuffling not defined");
-    if (this.currentShuffling === undefined) throw Error("currentShuffling not defined");
-    if (this.nextShuffling === undefined) throw Error("nextShuffling not defined");
     const epoch = computeEpochAtSlot(this.config, slot);
     const epochSlot = slot % this.config.params.SLOTS_PER_EPOCH;
     if (epoch === this.previousShuffling.epoch) {

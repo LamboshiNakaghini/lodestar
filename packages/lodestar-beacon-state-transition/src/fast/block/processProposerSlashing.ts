@@ -38,7 +38,6 @@ export function processProposerSlashing(
   }
   // verify the proposer is slashable
   const proposer = state.validators[header1.proposerIndex];
-  if (epochCtx.currentShuffling === undefined) throw Error("currentShuffling not defined");
   if (!isSlashableValidator(proposer, epochCtx.currentShuffling.epoch)) {
     throw new Error("ProposerSlashing proposer is not slashable");
   }

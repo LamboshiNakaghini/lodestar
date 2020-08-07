@@ -15,7 +15,6 @@ export function processRandao(
   verifySignature = true,
 ): void {
   const config = epochCtx.config;
-  if (epochCtx.currentShuffling === undefined) throw Error("currentShuffling is not defined");
   const epoch = epochCtx.currentShuffling.epoch;
   const randaoReveal = body.randaoReveal.valueOf() as Uint8Array;
   // verify RANDAO reveal

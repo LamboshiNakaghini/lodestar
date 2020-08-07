@@ -22,8 +22,6 @@ export function processAttestation(
       `committeeIndex=${data.index} committeeCount=${committeeCount}`
     );
   }
-  if (epochCtx.previousShuffling === undefined) throw Error("previousShuffling not defined");
-  if (epochCtx.currentShuffling === undefined) throw Error("currentShuffling not defined");
   if (!(
     data.target.epoch === epochCtx.previousShuffling.epoch ||
     data.target.epoch === epochCtx.currentShuffling.epoch

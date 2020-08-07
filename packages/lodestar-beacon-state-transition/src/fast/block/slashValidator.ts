@@ -17,7 +17,6 @@ export function slashValidator(
     WHISTLEBLOWER_REWARD_QUOTIENT,
     PROPOSER_REWARD_QUOTIENT,
   } = epochCtx.config.params;
-  if (epochCtx.currentShuffling === undefined) throw Error("currentShuffling not defined");
   const epoch = epochCtx.currentShuffling.epoch;
   initiateValidatorExit(epochCtx, state, slashedIndex);
   const validator = state.validators[slashedIndex];

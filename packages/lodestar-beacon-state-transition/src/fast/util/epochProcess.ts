@@ -58,9 +58,6 @@ export function createIEpochProcess(): IEpochProcess {
 export function prepareEpochProcessState(epochCtx: EpochContext, state: BeaconState): IEpochProcess {
   const out = createIEpochProcess();
 
-  if (epochCtx.previousShuffling === undefined) throw Error("previousShuffling not defined");
-  if (epochCtx.currentShuffling === undefined) throw Error("currentShuffling not defined");
-
   const config = epochCtx.config;
   const Root = config.types.Root;
   const {

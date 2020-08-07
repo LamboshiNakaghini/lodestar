@@ -36,7 +36,6 @@ export function processAttesterSlashing(
   }
   const validators = state.validators;
   indices.sort((a, b) => a - b).forEach((index) => {
-    if (epochCtx.currentShuffling === undefined) throw Error("currentShuffling is not defined");
     if (isSlashableValidator(validators[index], epochCtx.currentShuffling.epoch)) {
       slashValidator(epochCtx, state, index);
       slashedAny = true;

@@ -30,7 +30,6 @@ export function processRegistryUpdates(
 
   // set new activation eligibilities
   process.indicesToSetActivationEligibility.forEach((index) => {
-    if (epochCtx.currentShuffling === undefined) throw Error("currentShuffling is not defined");
     state.validators[index].activationEligibilityEpoch = epochCtx.currentShuffling.epoch + 1;
   });
 
