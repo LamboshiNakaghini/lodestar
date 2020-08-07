@@ -87,6 +87,9 @@ export class Libp2pNetwork extends (EventEmitter as { new(): NetworkEventEmitter
   }
 
   public getPeers(): PeerId[] {
+    if (!this.libp2p || this.libp2p.peerStore) {
+      return [];
+    }
     const peers =  Array.from(this.libp2p.peerStore.peers.values())
       .map(peerInfo => peerInfo.id)
       .filter(peerId => !!this.getPeerConnection(peerId));
