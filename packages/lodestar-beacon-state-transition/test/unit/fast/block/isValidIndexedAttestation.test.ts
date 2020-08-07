@@ -1,3 +1,4 @@
+import {List} from "@chainsafe/ssz";
 import {config} from "@chainsafe/lodestar-config/lib/presets/mainnet";
 import {generateAttestationData} from "../../../utils/attestation";
 import {expect} from "chai";
@@ -6,7 +7,7 @@ import {EpochContext} from "../../../../src/fast";
 import {IndexedAttestation} from "@chainsafe/lodestar-types";
 import {EMPTY_SIGNATURE} from "../../../../src";
 import { generateState } from "../../../utils/state";
-import { generateValidator } from "../../../utils/validator";
+import { generateValidators } from "../../../utils/validator";
 
 describe("validate indexed attestation", () => {
   // epochCtx is only used to access config in isValidIndexedAttestation
@@ -17,7 +18,7 @@ describe("validate indexed attestation", () => {
     const state = generateState({validators: generateValidators(100)});
 
     const indexedAttestation: IndexedAttestation = {
-      attestingIndices: [],
+      attestingIndices: [] as number[] as List<number>,
       data: attestationData,
       signature: EMPTY_SIGNATURE,
     };
@@ -29,7 +30,7 @@ describe("validate indexed attestation", () => {
     const state = generateState({validators: generateValidators(100)});
 
     const indexedAttestation: IndexedAttestation = {
-      attestingIndices: [1, 0],
+      attestingIndices: [1, 0] as List<number>,
       data: attestationData,
       signature: EMPTY_SIGNATURE,
     };
@@ -41,7 +42,7 @@ describe("validate indexed attestation", () => {
     const state = generateState({validators: generateValidators(100)});
 
     const indexedAttestation: IndexedAttestation = {
-      attestingIndices: [0, 1, 2, 3],
+      attestingIndices: [0, 1, 2, 3] as List<number>,
       data: attestationData,
       signature: EMPTY_SIGNATURE,
     };
