@@ -39,8 +39,7 @@ describe("get validator details api", function () {
         })
       ]
     });
-    const epochCtx = new EpochContext(config);
-    epochCtx.syncPubkeys(state);
+    const epochCtx = new EpochContext(config, state);
     chainStub.getHeadStateContext.resolves({
       state,
       epochCtx

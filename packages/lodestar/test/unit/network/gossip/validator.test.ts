@@ -77,8 +77,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       const attestation = generateEmptyAttestation();
       const invalidSubnet = 2000;
@@ -96,8 +95,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       expect(await validator.isValidIncomingCommitteeAttestation(attestation, 0)).to.be.equal(ExtendedValidatorResult.ignore);
       expect(chainStub.getHeadStateContext.calledOnce).to.be.true;
@@ -115,8 +113,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       getAttestingIndicesFromCommitteeStub.returns([]);
       expect(await validator.isValidIncomingCommitteeAttestation(attestation, 0)).to.be.equal(ExtendedValidatorResult.reject);
@@ -135,8 +132,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       dbStub.attestation.geAttestationsByTargetEpoch.resolves([attestation]);
       getAttestingIndicesFromCommitteeStub.returns([0]);
@@ -159,8 +155,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       dbStub.attestation.geAttestationsByTargetEpoch.resolves([]);
       getAttestingIndicesFromCommitteeStub.returns([0]);
@@ -184,8 +179,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       dbStub.attestation.geAttestationsByTargetEpoch.resolves([]);
       getAttestingIndicesFromCommitteeStub.returns([0]);
@@ -208,8 +202,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       dbStub.attestation.geAttestationsByTargetEpoch.resolves([]);
       getAttestingIndicesFromCommitteeStub.returns([0]);
@@ -233,8 +226,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       dbStub.attestation.geAttestationsByTargetEpoch.resolves([]);
       getAttestingIndicesFromCommitteeStub.returns([0]);
@@ -257,8 +249,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       state.genesisTime = Math.floor(new Date("2000-01-01").getTime()) / 1000;
       chainStub.getHeadStateContext.resolves({
         state: state as TreeBacked<BeaconState>,
@@ -277,8 +268,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({
         state: state as TreeBacked<BeaconState>,
         epochCtx: epochCtx,
@@ -299,8 +289,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({
         state: state as TreeBacked<BeaconState>,
         epochCtx: epochCtx,
@@ -323,8 +312,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({
         state: state as TreeBacked<BeaconState>,
         epochCtx: epochCtx,
@@ -345,8 +333,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({
         state: state as TreeBacked<BeaconState>,
         epochCtx: epochCtx,
@@ -370,8 +357,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({
         state: state as TreeBacked<BeaconState>,
         epochCtx: epochCtx,
@@ -399,8 +385,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       epochCtx.isAggregator = () => false;
       epochCtx.getAttestingIndices = () => ([0,1]);
       chainStub.getHeadStateContext.resolves({
@@ -424,8 +409,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       epochCtx.isAggregator = () => (true);
       epochCtx.getBeaconCommittee = () => ([1000]);
       epochCtx.getAttestingIndices = () => ([0,1]);
@@ -452,8 +436,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       epochCtx.getBeaconCommittee = () => ([0]);
       epochCtx.getAttestingIndices = () => ([0,1]);
       epochCtx.isAggregator = () => (true);
@@ -481,8 +464,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       epochCtx.getBeaconCommittee = () => ([0]);
       epochCtx.getAttestingIndices = () => ([0,1]);
       epochCtx.isAggregator = () => (true);
@@ -512,8 +494,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       epochCtx.getAttestingIndices = () => ([0,1]);
       epochCtx.getBeaconCommittee = () => ([0]);
       epochCtx.isAggregator = () => (true);
@@ -543,8 +524,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       epochCtx.getBeaconCommittee = () => ([0]);
       epochCtx.getAttestingIndices = () => ([0,1]);
       epochCtx.isAggregator = () => (true);
@@ -573,8 +553,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       expect(await validator.isValidIncomingVoluntaryExit(voluntaryExit)).to.be.equal(ExtendedValidatorResult.ignore);
       expect(isValidIncomingVoluntaryExitStub.called).to.be.false;
@@ -592,8 +571,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       isValidIncomingVoluntaryExitStub.returns(false);
       expect(await validator.isValidIncomingVoluntaryExit(voluntaryExit)).to.be.equal(ExtendedValidatorResult.reject);
@@ -612,8 +590,7 @@ describe("GossipMessageValidator", () => {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       chainStub.getHeadStateContext.resolves({state, epochCtx});
       isValidIncomingVoluntaryExitStub.returns(true);
       expect(await validator.isValidIncomingVoluntaryExit(voluntaryExit)).to.be.equal(ExtendedValidatorResult.accept);

@@ -52,8 +52,7 @@ describe("produce aggregate and proof api implementation", function () {
         }),
       ]
     });
-    const epochCtx = new EpochContext(config);
-    epochCtx.syncPubkeys(state);
+    const epochCtx = new EpochContext(config, state);
     chainStub.getHeadEpochContext.resolves(epochCtx);
 
     const result = await api.produceAggregateAndProof(generateEmptyAttestation().data, Buffer.alloc(48));

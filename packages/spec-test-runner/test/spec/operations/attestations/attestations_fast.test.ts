@@ -13,8 +13,7 @@ describeDirectorySpecTest<IProcessAttestationTestCase, BeaconState>(
   join(SPEC_TEST_LOCATION, "/tests/mainnet/phase0/operations/attestation/pyspec_tests"),
   (testcase) => {
     const state = testcase.pre;
-    const epochCtx = new EpochContext(config);
-    epochCtx.loadState(state);
+    const epochCtx = new EpochContext(config, state);
     const verify = (!!testcase.meta && !!testcase.meta.blsSetting && testcase.meta.blsSetting === 1n);
     processAttestation(epochCtx, state, testcase.attestation);
     return state;

@@ -13,8 +13,7 @@ describeDirectorySpecTest<ProcessSlotsTestCase, BeaconState>(
   join(SPEC_TEST_LOCATION, "/tests/mainnet/phase0/sanity/slots/pyspec_tests"),
   (testcase) => {
     const state = testcase.pre;
-    const epochCtx = new EpochContext(config);
-    epochCtx.loadState(state);
+    const epochCtx = new EpochContext(config, state);
     processSlots(epochCtx, state, state.slot + Number(testcase.slots));
     return state;
   },

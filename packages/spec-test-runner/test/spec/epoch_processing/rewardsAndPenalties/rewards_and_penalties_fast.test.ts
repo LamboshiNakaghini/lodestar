@@ -15,8 +15,7 @@ describeDirectorySpecTest<StateTestCase, BeaconState>(
   join(SPEC_TEST_LOCATION, "tests/minimal/phase0/epoch_processing/rewards_and_penalties/pyspec_tests"),
   (testcase) => {
     const state = testcase.pre;
-    const epochCtx = new EpochContext(config);
-    epochCtx.loadState(state);
+    const epochCtx = new EpochContext(config, state);
     const process = prepareEpochProcessState(epochCtx, state);
     processRewardsAndPenalties(epochCtx, process, state)
     return state;

@@ -39,8 +39,7 @@ export async function assembleBlock(
 
   let epochCtx: EpochContext;
   if(!stateContext.epochCtx) {
-    epochCtx = new EpochContext(config);
-    epochCtx.loadState(stateContext.state);
+    epochCtx = new EpochContext(config, stateContext.state);
   } else {
     epochCtx = stateContext.epochCtx;
   }

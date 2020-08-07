@@ -40,8 +40,7 @@ describe("get proposers api impl", function () {
         ),
         balances: Array.from({length: 25}, () => config.params.MAX_EFFECTIVE_BALANCE)
       });
-    const epochCtx = new EpochContext(config);
-    epochCtx.loadState(state);
+    const epochCtx = new EpochContext(config, state);
     chainStub.getHeadStateContext.resolves(
       {
         state,
@@ -62,8 +61,7 @@ describe("get proposers api impl", function () {
         ),
         balances: Array.from({length: 25}, () => config.params.MAX_EFFECTIVE_BALANCE)
       });
-    const epochCtx = new EpochContext(config);
-    epochCtx.loadState(state);
+    const epochCtx = new EpochContext(config, state);
     chainStub.getHeadStateContext.resolves(
       {
         state,

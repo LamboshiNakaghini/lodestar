@@ -43,19 +43,19 @@ export class EpochContext {
   // Warning: may contain indices that do not yet exist in the current state, but do in a later processed state.
   public index2pubkey: PublicKey[];
   public proposers: number[];
-  public previousShuffling?: IEpochShuffling;
-  public currentShuffling?: IEpochShuffling;
-  public nextShuffling?: IEpochShuffling;
+  public previousShuffling: IEpochShuffling;
+  public currentShuffling: IEpochShuffling;
+  public nextShuffling: IEpochShuffling;
   public config: IBeaconConfig;
+  public state: BeaconState;
 
-  constructor(config: IBeaconConfig) {
+  constructor(config: IBeaconConfig, state: BeaconState) {
     this.config = config;
+    this.state = state;
     this.pubkey2index = new PubkeyIndexMap();
     this.index2pubkey = [];
     this.proposers = [];
-  }
 
-  public loadState(state: BeaconState): void {
     this.syncPubkeys(state);
     const currentEpoch = computeEpochAtSlot(this.config, state.slot);
     const previousEpoch = currentEpoch === GENESIS_EPOCH ? GENESIS_EPOCH : currentEpoch - 1;
@@ -76,7 +76,7 @@ export class EpochContext {
   }
 
   public copy(): EpochContext {
-    const ctx = new EpochContext(this.config);
+    const ctx = new EpochContext(this.config, this.state);
     // warning: pubkey cache is not copied, it is shared, as eth1 is not expected to reorder validators.
     ctx.pubkey2index = this.pubkey2index;
     ctx.index2pubkey = this.index2pubkey;

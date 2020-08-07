@@ -42,8 +42,7 @@ describe("assemble attestation", function () {
       balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
         () => config.params.MAX_EFFECTIVE_BALANCE),
     });
-    const epochCtx = new EpochContext(config);
-    epochCtx.loadState(state);
+    const epochCtx = new EpochContext(config, state);
     const attestationData = generateAttestationData(1, 3);
     assembleAttestationDataStub.resolves(attestationData);
     const validatorIndex = epochCtx.getBeaconCommittee(2, 0)[0];

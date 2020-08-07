@@ -148,8 +148,7 @@ export class BeaconChain extends (EventEmitter as { new(): ChainEventEmitter }) 
     // if we run from scratch, we want to wait for genesis state
     const state = await this.waitForState();
     this.genesisTime = state.genesisTime;
-    const epochCtx = new EpochContext(this.config);
-    epochCtx.loadState(state);
+    const epochCtx = new EpochContext(this.config, state);
     await this.db.stateCache.add({state, epochCtx});
     this.logger.info("Chain started, waiting blocks and attestations");
     this.clock = new LocalClock(this.config, state.genesisTime);
@@ -211,8 +210,7 @@ export class BeaconChain extends (EventEmitter as { new(): ChainEventEmitter }) 
       justifiedCheckpoint: justifiedFinalizedCheckpoint,
       finalizedCheckpoint: justifiedFinalizedCheckpoint,
     });
-    const epochCtx = new EpochContext(this.config);
-    epochCtx.loadState(genesisState);
+    const epochCtx = new EpochContext(this.config, genesisState);
     await this.db.stateCache.add({state: genesisState, epochCtx});
     // Determine whether a genesis state already in
     // the database matches what we were provided

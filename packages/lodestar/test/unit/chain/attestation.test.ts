@@ -88,8 +88,7 @@ describe("AttestationProcessor", function () {
         balances: Array.from({length: config.params.MIN_GENESIS_ACTIVE_VALIDATOR_COUNT},
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       dbStub.stateCache.get.resolves({state, epochCtx});
       forkChoiceStub.getJustified.returns({} as Checkpoint);
 
@@ -116,8 +115,7 @@ describe("AttestationProcessor", function () {
           () => config.params.MAX_EFFECTIVE_BALANCE),
       });
       state.genesisTime = state.genesisTime - config.params.SECONDS_PER_SLOT;
-      const epochCtx = new EpochContext(config);
-      epochCtx.loadState(state);
+      const epochCtx = new EpochContext(config, state);
       dbStub.stateCache.get.resolves({state, epochCtx});
       forkChoiceStub.getJustified.returns(config.types.Checkpoint.defaultValue());
       forkChoiceStub.headBlockSlot.returns(0);
@@ -149,8 +147,7 @@ describe("AttestationProcessor", function () {
         () => config.params.MAX_EFFECTIVE_BALANCE),
     });
     state.genesisTime = state.genesisTime - config.params.SECONDS_PER_SLOT;
-    const epochCtx = new EpochContext(config);
-    epochCtx.loadState(state);
+    const epochCtx = new EpochContext(config, state);
     dbStub.stateCache.get.resolves({state, epochCtx});
     forkChoiceStub.getJustified.returns(config.types.Checkpoint.defaultValue());
     forkChoiceStub.headBlockSlot.returns(0);

@@ -27,7 +27,9 @@ describe("BeaconChain", function() {
     forkChoice = sandbox.createStubInstance(StatefulDagLMDGHOST);
     const state: BeaconState = generateState();
     state.validators = Array.from({length: 5}, () => generateValidator({activationEpoch: 0}));
-    dbStub.stateCache.get.resolves({state: state as TreeBacked<BeaconState>, epochCtx: new EpochContext(config)});
+    dbStub.stateCache.get.resolves(
+      {state: state as TreeBacked<BeaconState>, epochCtx: new EpochContext(config, state)}
+    );
     dbStub.stateArchive.lastValue.resolves(state as any);
     chain = new BeaconChain(chainOpts, {config, db: dbStub, eth1, logger, metrics, forkChoice});
     await chain.start();

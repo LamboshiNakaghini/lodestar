@@ -13,8 +13,7 @@ describeDirectorySpecTest<ProcessDepositTestCase, BeaconState>(
   join(SPEC_TEST_LOCATION, "/tests/mainnet/phase0/operations/deposit/pyspec_tests"),
   (testcase) => {
     const state = testcase.pre;
-    const epochCtx = new EpochContext(config);
-    epochCtx.loadState(state);
+    const epochCtx = new EpochContext(config, state);
     processDeposit(epochCtx, state, testcase.deposit);
     return state;
   },
