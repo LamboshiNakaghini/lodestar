@@ -30,7 +30,7 @@ describe("[network] rpc", () => {
     disconnectTimeout: 5000,
   };
   beforeEach(async function() {
-    this.timeout(20000);
+    this.timeout(10000);
     loggerStub = sandbox.createStubInstance(WinstonLogger);
     // setup
     nodeA = await createNode(multiaddr);
@@ -64,7 +64,7 @@ describe("[network] rpc", () => {
   });
   afterEach(async function () {
     // teardown
-    this.timeout(20000);
+    this.timeout(10000);
     await Promise.all([
       nodeA.stop(),
       nodeB.stop()
@@ -182,14 +182,15 @@ describe("[network] rpc", () => {
   });
 
   it("should handle response timeout - TTFB", async function() {
-    this.timeout(10000);
-    const timer = sandbox.useFakeTimers({shouldAdvanceTime: true});
+    this.timeout(400);
+    const timer = sinon.useFakeTimers({shouldAdvanceTime: true});
     const request: BeaconBlocksByRangeRequest = {
       startSlot: 100,
       count: 10,
       step: 1
     };
     rpcB.once("request", async () => {
+      timer.tick(TTFB_TIMEOUT);
       timer.tick(TTFB_TIMEOUT);
     });
     try {
@@ -202,7 +203,7 @@ describe("[network] rpc", () => {
   });
 
   it("should handle response timeout - suspended dialProtocol", async function() {
-    const timer = sandbox.useFakeTimers();
+    const timer = sinon.useFakeTimers();
     const request: BeaconBlocksByRangeRequest = {
       startSlot: 100,
       count: 10,
